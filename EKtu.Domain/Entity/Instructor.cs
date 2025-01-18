@@ -1,8 +1,9 @@
-﻿namespace EKtu.Domain.Entity
+﻿using EKtu.Domain.Common;
+
+namespace EKtu.Domain.Entity
 {
-    public class Instructor
+    public class Instructor:BaseEntity
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

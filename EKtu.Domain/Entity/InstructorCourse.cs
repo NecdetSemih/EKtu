@@ -1,8 +1,9 @@
-﻿namespace EKtu.Domain.Entity
+﻿using EKtu.Domain.Common;
+
+namespace EKtu.Domain.Entity
 {
-    public class InstructorCourse
+    public class InstructorCourse:BaseEntity
     {
-        public int Id { get; set; }
         public int CourseId { get; set; }
         public int InstructorId { get; set; }
         public Course Course { get; set; }

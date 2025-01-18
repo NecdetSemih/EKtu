@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="IRepository\" />
     <Folder Include="IService\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EKtu.Domain\EKtu.Domain.csproj" />
   </ItemGroup>
 
 </Project>

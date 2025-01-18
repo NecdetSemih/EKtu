@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EKtu.Domain.Common;
 
 namespace EKtu.Application
 {
-    internal class IBaseRepository
+    public interface IBaseRepository<T> where T : BaseEntity,new()
     {
+        Task AddAsync(T entity);
+        Task RemoveAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task GetById(T entity);
+
     }
 }
