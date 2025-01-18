@@ -2,7 +2,7 @@
 
 namespace EKtu.Domain.Entity
 {
-    public class Instructor:BaseEntity
+    public class Instructor : BaseEntity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -12,6 +12,7 @@ namespace EKtu.Domain.Entity
         public Title Title { get; set; }
         public ICollection<InstructorCourse> InstructorCourses { get; set; }
         public ICollection<InstructorDepartment> InstructorDepartments { get; set; }
+        public ICollection<Student> Student { get; set; }
 
     }
 }

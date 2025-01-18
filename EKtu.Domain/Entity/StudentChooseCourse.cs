@@ -2,9 +2,10 @@
 
 namespace EKtu.Domain.Entity
 {
-    public class StudentChooseCourse:BaseEntity
+    public class StudentChooseCourse : BaseEntity
     {
-        public int LessonId { get; set; }
+        public int StudentId { get; set; }
+        public int CourseId { get; set; }
         public bool IsApproved { get; set; }
         public DateTime SelectedDate { get; set; }
         public Student Student { get; set; }

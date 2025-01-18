@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repository\" />
+    <ProjectReference Include="..\EKtu.Application\EKtu.Application.csproj" />
   </ItemGroup>
 
 </Project>

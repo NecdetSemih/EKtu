@@ -10,6 +10,7 @@ namespace EKtu.Domain.Entity
         public int Credit { get; set; }
         public bool Mandatory { get; set; }
         public int DepartmentId { get; set; }
+        public Department Department { get; set; }
         public ICollection<InstructorCourse> InstructorCourses { get; set; }
         public ICollection<StudentChooseCourse> StudentChooseCourses { get; set; }
     }
