@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ektu.API", "Ektu.API\Ektu.API.csproj", "{046A2E18-30C9-4AC4-BDCC-2697CAB12663}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EKtu.Domain", "EKtu.Domain\EKtu.Domain.csproj", "{68646492-537F-47F5-A9B9-EA2620607434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EKtu.Application", "EKtu.Application\EKtu.Application.csproj", "{12D612F9-F9C9-483C-BB00-925F554E818F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EKtu.Persistence", "EKtu.Persistence\EKtu.Persistence.csproj", "{49250F24-EF5D-49CD-99C3-CC38799495A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{046A2E18-30C9-4AC4-BDCC-2697CAB12663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{046A2E18-30C9-4AC4-BDCC-2697CAB12663}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{046A2E18-30C9-4AC4-BDCC-2697CAB12663}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{046A2E18-30C9-4AC4-BDCC-2697CAB12663}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68646492-537F-47F5-A9B9-EA2620607434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68646492-537F-47F5-A9B9-EA2620607434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68646492-537F-47F5-A9B9-EA2620607434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68646492-537F-47F5-A9B9-EA2620607434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12D612F9-F9C9-483C-BB00-925F554E818F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12D612F9-F9C9-483C-BB00-925F554E818F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12D612F9-F9C9-483C-BB00-925F554E818F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12D612F9-F9C9-483C-BB00-925F554E818F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49250F24-EF5D-49CD-99C3-CC38799495A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49250F24-EF5D-49CD-99C3-CC38799495A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49250F24-EF5D-49CD-99C3-CC38799495A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49250F24-EF5D-49CD-99C3-CC38799495A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
