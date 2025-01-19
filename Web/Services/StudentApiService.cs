@@ -1,4 +1,5 @@
 ﻿using EKtu.WEB.Models;
+using Web.Models;
 
 namespace EKtu.WEB.Services
 {
@@ -9,14 +10,22 @@ namespace EKtu.WEB.Services
         {
             _httpClient = httpClient;
         }
-        public async Task<bool> StudentLoginApi(StudentLoginViewModel studentLoginViewModel)
+        public async Task<StudentLoginResponseViewModel> StudentLoginApi(StudentLoginViewModel studentLoginViewModel)
         {
             var response = await _httpClient.PostAsJsonAsync("Student/StudentLogin", studentLoginViewModel);
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<bool>();
+                return await response.Content.ReadFromJsonAsync<StudentLoginResponseViewModel>();
             }
-            return false;
+            return new();
+        }
+        public async Task<List<GetAllCourseResponseViewModel>> GetAllCourseApi()
+        {
+            return await _httpClient.GetFromJsonAsync<List<GetAllCourseResponseViewModel>>("Course/GetAllCourse");
+        }
+        public async Task<List<StudentCourseResponseViewModel>> StudentCourseApi(int studentId)
+        {
+            return await _httpClient.GetFromJsonAsync<List<StudentCourseResponseViewModel>>($"Student/StudentCourse?studentId={studentId}");
         }
     }
 }

@@ -22,17 +22,32 @@ namespace EKtu.WEB.Controllers
             if (ModelState.IsValid)
             {
                 var response = await _studentApiService.StudentLoginApi(studentLoginViewModel);
-                if (response)
-                    return RedirectToAction(nameof(StudentChooseCourse));
+                if (response is not null)
+                {
+                    TempData["userId"] = response.Id;
+                    TempData["userName"] = response.FullName;
 
-                ViewData["Hata"] = "Email veya Şifre hatalı";
+                    return RedirectToAction(nameof(StudentChooseCourse));
+                }
+                else
+                {
+                    ViewData["Hata"] = "Email veya Şifre hatalı";
+                }
             }
             return View();
         }
         [HttpGet]
-        public IActionResult StudentChooseCourse()
+        public async Task<IActionResult> StudentChooseCourse()
         {
-            return View();
+            var data = await _studentApiService.GetAllCourseApi();
+            TempData["userId"] = TempData["userId"];
+            return View(data);
+        }
+        [HttpGet]
+        public async Task<IActionResult> StudentCourse(int userId)
+        {
+            var data = await _studentApiService.StudentCourseApi(userId);
+            return View(data);
         }
     }
 }

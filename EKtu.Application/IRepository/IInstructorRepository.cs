@@ -11,5 +11,6 @@ namespace EKtu.Application.IRepository
         Task<List<string>> InstructorGetCourse(int instructorId);
         Task<bool> RefreshEmail(int instructorId, string newEmail);
         Task<bool> RefreshPassword(int instructorId, string newPassword);
+        Task<bool> InstructorApproved(int instructorId);
     }
 }
