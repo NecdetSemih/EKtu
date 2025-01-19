@@ -1,4 +1,5 @@
-﻿using EKtu.Application.IRepository;
+﻿using EKtu.Application.Dtos;
+using EKtu.Application.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ektu.API.Controllers
@@ -15,9 +16,16 @@ namespace Ektu.API.Controllers
         [HttpGet]
         public async Task<IActionResult> InstructorApproved(int instructorId)
         {
-            await _instructorRepository.InstructorSelectedCourseApproved(instructorId);
+            var response = await _instructorRepository.InstructorSelectedCourse(instructorId);
 
-            return Ok();
+            return Ok(response);
         }
+        [HttpPost]
+        public async Task<IActionResult> LoginInstructor(LoginInstructorRequestDto loginInstructorRequestDto)
+        {
+            var response = await _instructorRepository.LoginInstructor(loginInstructorRequestDto.Email, loginInstructorRequestDto.Password);
+            return Ok(response);
+        }
+
     }
 }
