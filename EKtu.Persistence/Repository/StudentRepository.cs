@@ -1,4 +1,5 @@
-﻿using EKtu.Application.IRepository;
+﻿using EKtu.Application.Dtos;
+using EKtu.Application.IRepository;
 using EKtu.Domain.Entity;
 using EKtu.Infrastructure;
 using EKtu.Persistence.Database;
@@ -79,6 +80,16 @@ namespace EKtu.Persistence.Repository
             FormattableString sql = @$"UPDATE Student SET Password = {hashingPassword} WHERE Id ={studentId}";
             int value = await _appDbContext.Database.ExecuteSqlInterpolatedAsync(sql);
             return value > 0;
+        }
+
+
+        public async Task<StudentInfoResponseDto> StudentInfo(int studentId)
+        {
+            FormattableString sql = @$" SELECT s.FirstName,s.LastName,s.Email,i.[FirstName]+ i.[LastName] as [InstructorName] FROM Student s
+                                         INNER JOIN Instructor i
+                                         ON s.InstructorId=i.Id WHERE s.Id={studentId}";
+
+            return await _appDbContext.Database.SqlQuery<StudentInfoResponseDto>(sql).FirstAsync();
         }
     }
 }

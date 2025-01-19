@@ -45,6 +45,11 @@ namespace Ektu.API.Controllers
         {
             return Ok(await _studentRepository.RefreshPassword(studentId, newPassword));
         }
+        [HttpGet]
+        public async Task<IActionResult> StudentInfo(int studentId)
+        {
+            return Ok(await _studentRepository.StudentInfo(studentId));
+        }
 
     }
 }

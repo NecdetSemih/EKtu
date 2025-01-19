@@ -1,4 +1,5 @@
-﻿using EKtu.Domain.Entity;
+﻿using EKtu.Application.Dtos;
+using EKtu.Domain.Entity;
 
 namespace EKtu.Application.IRepository
 {
@@ -10,5 +11,6 @@ namespace EKtu.Application.IRepository
         Task StudentChooseCourse(int studentId, List<int> courseIds);
         Task<bool> RefreshEmail(int studentId, string newEmail);
         Task<bool> RefreshPassword(int studentId, string newPassword);
+        Task<StudentInfoResponseDto> StudentInfo(int studentId);
     }
 }

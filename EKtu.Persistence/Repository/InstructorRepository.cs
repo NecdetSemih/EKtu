@@ -71,5 +71,6 @@ namespace EKtu.Persistence.Repository
             int value = await _appDbContext.Database.ExecuteSqlInterpolatedAsync(sql);
             return value > 0;
         }
+        
     }
 }
