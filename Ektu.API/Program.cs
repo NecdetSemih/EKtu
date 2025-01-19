@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IInstructorRepository, InstructorRepository>();
 builder.Services.AddDbContext<AppDbContext>(conf => conf.UseSqlServer("Server=DESKTOP-F9749JC\\SQLEXPRESS;Database=EKtu;Trusted_Connection=True; TrustServerCertificate=True;"));
 var app = builder.Build();
 

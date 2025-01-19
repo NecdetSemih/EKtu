@@ -24,17 +24,14 @@ namespace EKtu.Persistence.Repository
 
         }
 
-        public async Task<Student> GetById(Student entity)
+        public async Task<Student> GetListStudentChooseCourse(Student entity)
         {
-            var data = await _appDbContext.Student.FromSqlInterpolated(@$"SELECT c.CourseCode,c.CourseName FROM Student s
+            return await _appDbContext.Student.FromSqlInterpolated(@$"SELECT c.CourseCode,c.CourseName FROM Student s
                                                 INNER JOIN StudentChooseCourse sc
                                                 INNER JOIN Course c
                                                 ON c.Id=sc.CourseId
                                                 ON s.Id=sc.StudentId
                                                 WHERE s.Id= {entity.Id}").SingleAsync();
-
-            return data;
-
         }
 
         public async Task RemoveAsync(Student entity)
@@ -45,6 +42,7 @@ namespace EKtu.Persistence.Repository
 
         public async Task StudentChooseCourse(int studentId, List<int> courseIds)
         {
+
             var parameters = courseIds.Select((courseId, index) => new
             {
                 StudentId = studentId,
@@ -56,14 +54,14 @@ namespace EKtu.Persistence.Repository
                 $"(@StudentId{p.Index}, @CourseId{p.Index}, 0, GETUTCDATE())"));
 
             var sql = $@"
-    INSERT INTO StudentChooseCourse (StudentId, CourseId,IsApproved, SelectedDate)
-    VALUES {valuesSql}";
+                    INSERT INTO StudentChooseCourse (StudentId, CourseId,IsApproved, SelectedDate)
+                    VALUES {valuesSql}";
 
             var sqlParameters = parameters.SelectMany(p => new[]
             {
-    new SqlParameter($"@StudentId{p.Index}", p.StudentId),
-    new SqlParameter($"@CourseId{p.Index}", p.CourseId)
-}).ToArray();
+                new SqlParameter($"@StudentId{p.Index}", p.StudentId),
+                new SqlParameter($"@CourseId{p.Index}", p.CourseId)
+            }).ToArray();
 
             await _appDbContext.Database.ExecuteSqlRawAsync(sql, sqlParameters);
         }
