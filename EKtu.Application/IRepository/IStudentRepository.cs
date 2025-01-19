@@ -6,7 +6,7 @@ namespace EKtu.Application.IRepository
     {
         Task AddAsync(Student entity);
         Task RemoveAsync(Student entity);
-        Task<Student> GetById(Student entity);
+        Task<Student> GetListStudentChooseCourse(Student entity);
         Task StudentChooseCourse(int studentId, List<int> courseIds);
     }
 }
