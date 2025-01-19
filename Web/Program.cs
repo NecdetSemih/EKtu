@@ -1,8 +1,17 @@
+using EKtu.WEB.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddHttpClient<StudentApiService>(y =>
+{
+    y.BaseAddress = new Uri("https://localhost:7083/api/");
+});
+builder.Services.AddHttpClient<InstructorApiService>(y =>
+{
+    y.BaseAddress = new Uri("https://localhost:7083/api/");
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
