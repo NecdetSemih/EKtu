@@ -1,7 +1,11 @@
-﻿namespace EKtu.Application.IRepository
+﻿using EKtu.Application.Dtos;
+
+namespace EKtu.Application.IRepository
 {
     public interface IInstructorRepository
     {
-        Task InstructorSelectedCourseApproved(int instructorId);
+
+        Task<bool> LoginInstructor(string email, string password);
+        Task<List<InstructorApprovedDto>> InstructorSelectedCourse(int instructorId);
     }
 }

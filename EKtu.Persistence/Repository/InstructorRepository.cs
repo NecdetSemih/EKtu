@@ -1,4 +1,6 @@
-﻿using EKtu.Application.IRepository;
+﻿using EKtu.Application.Dtos;
+using EKtu.Application.IRepository;
+using EKtu.Domain.Entity;
 using EKtu.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,22 +13,29 @@ namespace EKtu.Persistence.Repository
         {
             _appDbContext = appDbContext;
         }
-        public async Task InstructorSelectedCourseApproved(int instructorId)
+
+        public async Task<bool> LoginInstructor(string email, string password)
         {
-            var instructorCourseIds = await _appDbContext.InstructorCourse.FromSqlInterpolated(@$"SELECT CourseId  FROM InstructorCourse WHERE InstructorId={instructorId}")
-                   .Select(y => y.CourseId).ToListAsync();
+            FormattableString sql = $"SELECT * FROM Instructor Where Email = {email} AND Password = {password} ";
 
-            var parameters = instructorCourseIds.Select((id, index) => $"@p{index}").ToList();
-            var parameterString = string.Join(",", parameters);
+            Instructor? hasInstructor = _appDbContext.Instructor.FromSqlInterpolated(sql).FirstOrDefault();
 
-            var sql = $"UPDATE StudentChooseCourse SET IsApproved=1 WHERE CourseId IN ({parameterString})";
+            if (hasInstructor != null)
+                return true;
+            return false;
+        }
+        public async Task<List<InstructorApprovedDto>> InstructorSelectedCourse(int instructorId)
+        {
+            FormattableString sql = @$"SELECT DISTINCT s.FirstName,scc.IsApproved,c.CourseCode,c.CourseName FROM Course c 
+                        INNER JOIN StudentChooseCourse scc
+                        ON c.Id=scc.CourseId
+                        INNER JOIN Student s
+                        ON s.Id=scc.StudentId
+                        INNER JOIN InstructorCourse ic
+                        ON ic.CourseId=c.Id WHERE ic.InstructorId={instructorId} AND scc.IsApproved = 0";
 
-            var sqlParameters = new Dictionary<string, object>();
-            for (int i = 0; i < instructorCourseIds.Count; i++)
-            {
-                sqlParameters.Add($"p{i}", instructorCourseIds[i]);
-            }
-            await _appDbContext.Database.ExecuteSqlRawAsync(sql, sqlParameters.Values.ToArray());
+            return _appDbContext.Database.SqlQuery<InstructorApprovedDto>(sql).ToList();
+
 
 
         }
