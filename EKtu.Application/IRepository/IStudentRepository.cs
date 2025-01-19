@@ -12,5 +12,6 @@ namespace EKtu.Application.IRepository
         Task<bool> RefreshEmail(int studentId, string newEmail);
         Task<bool> RefreshPassword(int studentId, string newPassword);
         Task<StudentInfoResponseDto> StudentInfo(int studentId);
+        Task<bool> StudentLogin(StudentLoginDto studentLoginDto);
     }
 }

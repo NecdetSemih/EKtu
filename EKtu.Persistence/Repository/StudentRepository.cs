@@ -91,5 +91,18 @@ namespace EKtu.Persistence.Repository
 
             return await _appDbContext.Database.SqlQuery<StudentInfoResponseDto>(sql).FirstAsync();
         }
+
+        public async Task<bool> StudentLogin(StudentLoginDto studentLoginDto)
+        {
+            string hashingPassword = Hashing.HashData(studentLoginDto.Password);
+            FormattableString sql = $"SELECT * FROM Student Where Email = {studentLoginDto.Email} AND Password = {hashingPassword} ";
+
+            Student? hasStudent = _appDbContext.Student.FromSqlInterpolated(sql).FirstOrDefault();
+
+            if (hasStudent != null)
+                return true;
+            return false;
+        }
+
     }
 }
