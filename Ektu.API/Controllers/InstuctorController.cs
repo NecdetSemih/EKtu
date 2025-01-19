@@ -26,6 +26,25 @@ namespace Ektu.API.Controllers
             var response = await _instructorRepository.LoginInstructor(loginInstructorRequestDto.Email, loginInstructorRequestDto.Password);
             return Ok(response);
         }
-
+        [HttpGet]
+        public async Task<IActionResult> InstructorInfo(int instructorId)
+        {
+            return Ok(await _instructorRepository.InstructorInfo(instructorId));
+        }
+        [HttpGet]
+        public async Task<IActionResult> InstructorGetCourse(int instructorId)
+        {
+            return Ok(await _instructorRepository.InstructorGetCourse(instructorId));
+        }
+        [HttpPost]
+        public async Task<IActionResult> RefreshEmail(int instructorId, string newEmail)
+        {
+            return Ok(await _instructorRepository.RefreshEmail(instructorId, newEmail));
+        }
+        [HttpPost]
+        public async Task<IActionResult> RefreshPassword(int instructorId, string newPassword)
+        {
+            return Ok(await _instructorRepository.RefreshPassword(instructorId, newPassword));
+        }
     }
 }
