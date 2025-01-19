@@ -1,5 +1,6 @@
 ﻿using EKtu.Application.IRepository;
 using EKtu.Domain.Entity;
+using EKtu.Infrastructure;
 using EKtu.Persistence.Database;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -64,6 +65,20 @@ namespace EKtu.Persistence.Repository
             }).ToArray();
 
             await _appDbContext.Database.ExecuteSqlRawAsync(sql, sqlParameters);
+        }
+
+        public async Task<bool> RefreshEmail(int studentId, string newEmail)
+        {
+            FormattableString sql = @$"UPDATE Student SET Email = {newEmail} WHERE Id ={studentId}";
+            int value = await _appDbContext.Database.ExecuteSqlInterpolatedAsync(sql);
+            return value > 0;
+        }
+        public async Task<bool> RefreshPassword(int studentId, string newPassword)
+        {
+            string hashingPassword = Hashing.HashData(newPassword);
+            FormattableString sql = @$"UPDATE Student SET Password = {hashingPassword} WHERE Id ={studentId}";
+            int value = await _appDbContext.Database.ExecuteSqlInterpolatedAsync(sql);
+            return value > 0;
         }
     }
 }

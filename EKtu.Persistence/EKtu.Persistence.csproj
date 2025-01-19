@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EKtu.Application\EKtu.Application.csproj" />
+    <ProjectReference Include="..\EKtu.Infrastructure\EKtu.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

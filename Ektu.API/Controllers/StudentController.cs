@@ -30,10 +30,21 @@ namespace Ektu.API.Controllers
             return Ok(1);
         }
         [HttpPost]
-        public async Task<IActionResult> StudentChooseCourse(int studentId,List<int>courseIds)
+        public async Task<IActionResult> StudentChooseCourse(int studentId, List<int> courseIds)
         {
-           await _studentRepository.StudentChooseCourse(studentId,courseIds);
+            await _studentRepository.StudentChooseCourse(studentId, courseIds);
             return Ok(1);
         }
+        [HttpPost]
+        public async Task<IActionResult> RefreshEmail(int studentId, string newEmail)
+        {
+            return Ok(await _studentRepository.RefreshEmail(studentId, newEmail));
+        }
+        [HttpPost]
+        public async Task<IActionResult> RefreshPassword(int studentId, string newPassword)
+        {
+            return Ok(await _studentRepository.RefreshPassword(studentId, newPassword));
+        }
+
     }
 }
