@@ -1,9 +1,9 @@
-﻿using EKtu.Domain.Entity;
+﻿using EKtu.Application.Dtos;
 
 namespace EKtu.Application.IRepository
 {
-    public interface ICourseRepository:IBaseRepository<Course>
+    public interface ICourseRepository
     {
-
+        Task<List<GetAllCourseDto>> GetAllCourse();
     }
 }

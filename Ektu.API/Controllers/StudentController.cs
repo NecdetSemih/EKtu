@@ -30,10 +30,10 @@ namespace Ektu.API.Controllers
             return Ok(1);
         }
         [HttpPost]
-        public async Task<IActionResult> StudentChooseCourse(int studentId, List<int> courseIds)
+        public async Task<IActionResult> StudentChooseCourse([FromBody] StudentChooseCourseRequestDto studentChooseCourseRequestDto)
         {
-            await _studentRepository.StudentChooseCourse(studentId, courseIds);
-            return Ok(1);
+            await _studentRepository.StudentChooseCourse(studentChooseCourseRequestDto.StudentId, studentChooseCourseRequestDto.CourseIds);
+            return Ok(true);
         }
         [HttpPost]
         public async Task<IActionResult> RefreshEmail(int studentId, string newEmail)
@@ -54,6 +54,11 @@ namespace Ektu.API.Controllers
         public async Task<IActionResult> StudentLogin([FromBody] StudentLoginDto studentLoginDto)
         {
             return Ok(await _studentRepository.StudentLogin(studentLoginDto));
+        }
+        [HttpGet]
+        public async Task<IActionResult> StudentCourse(int studentId)
+        {
+            return Ok(await _studentRepository.GetListStudentChooseCourse(studentId));
         }
 
     }

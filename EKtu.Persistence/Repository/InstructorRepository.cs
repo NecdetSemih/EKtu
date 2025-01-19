@@ -71,6 +71,21 @@ namespace EKtu.Persistence.Repository
             int value = await _appDbContext.Database.ExecuteSqlInterpolatedAsync(sql);
             return value > 0;
         }
-        
+        public async Task<bool> InstructorApproved(int instructorId)
+        {
+            FormattableString sql1 = $"SELECT CourseId FROM InstructorCourse WHERE InstructorId = {instructorId}";
+            var courseIds = await _appDbContext.Database.SqlQuery<int>(sql1).ToListAsync();
+
+
+            var parameters = courseIds.Select((id, index) => new Microsoft.Data.SqlClient.SqlParameter($"@p{index}", id)).ToList();
+
+            var parameterNames = string.Join(",", parameters.Select(p => p.ParameterName));
+            var sql = $"UPDATE StudentChooseCourse SET IsApproved = 2 WHERE CourseId IN ({parameterNames})";
+
+
+            await _appDbContext.Database.ExecuteSqlRawAsync(sql, parameters.ToArray());
+            return true;
+        }
+
     }
 }

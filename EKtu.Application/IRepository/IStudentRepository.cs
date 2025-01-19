@@ -7,11 +7,11 @@ namespace EKtu.Application.IRepository
     {
         Task AddAsync(Student entity);
         Task RemoveAsync(Student entity);
-        Task<Student> GetListStudentChooseCourse(Student entity);
+        Task<List<GetStudentCourseResponseDto>> GetListStudentChooseCourse(int userId);
         Task StudentChooseCourse(int studentId, List<int> courseIds);
         Task<bool> RefreshEmail(int studentId, string newEmail);
         Task<bool> RefreshPassword(int studentId, string newPassword);
         Task<StudentInfoResponseDto> StudentInfo(int studentId);
-        Task<bool> StudentLogin(StudentLoginDto studentLoginDto);
+        Task<StudentLoginResponseDto> StudentLogin(StudentLoginDto studentLoginDto);
     }
 }

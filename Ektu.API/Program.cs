@@ -11,6 +11,17 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost",
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:7146")  
+                  .AllowAnyHeader()                      
+                  .AllowAnyMethod();                     
+        });
+});
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IInstructorRepository, InstructorRepository>();
 builder.Services.AddDbContext<AppDbContext>(conf => conf.UseSqlServer("Server=DESKTOP-F9749JC\\SQLEXPRESS;Database=EKtu;Trusted_Connection=True; TrustServerCertificate=True;"));
@@ -23,6 +34,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowLocalhost");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

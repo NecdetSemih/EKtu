@@ -26,14 +26,12 @@ namespace EKtu.Persistence.Repository
 
         }
 
-        public async Task<Student> GetListStudentChooseCourse(Student entity)
+        public async Task<List<GetStudentCourseResponseDto>> GetListStudentChooseCourse(int userId)
         {
-            return await _appDbContext.Student.FromSqlInterpolated(@$"SELECT c.CourseCode,c.CourseName FROM Student s
-                                                INNER JOIN StudentChooseCourse sc
-                                                INNER JOIN Course c
-                                                ON c.Id=sc.CourseId
-                                                ON s.Id=sc.StudentId
-                                                WHERE s.Id= {entity.Id}").SingleAsync();
+            return await _appDbContext.Database.SqlQuery<GetStudentCourseResponseDto>(@$"SELECT c.Id,c.CourseCode, c.CourseName, c.Credit,c.Mandatory,scc.IsApproved FROM StudentChooseCourse scc
+	                                                                                INNER JOIN Course c
+	                                                                                ON scc.CourseId=c.Id
+	                                                                                WHERE scc.StudentId={userId}").ToListAsync();
         }
 
         public async Task RemoveAsync(Student entity)
@@ -92,16 +90,12 @@ namespace EKtu.Persistence.Repository
             return await _appDbContext.Database.SqlQuery<StudentInfoResponseDto>(sql).FirstAsync();
         }
 
-        public async Task<bool> StudentLogin(StudentLoginDto studentLoginDto)
+        public async Task<StudentLoginResponseDto> StudentLogin(StudentLoginDto studentLoginDto)
         {
             string hashingPassword = Hashing.HashData(studentLoginDto.Password);
-            FormattableString sql = $"SELECT * FROM Student Where Email = {studentLoginDto.Email} AND Password = {hashingPassword} ";
+            FormattableString sql = $"SELECT Id, FirstName + ' ' + LastName as FullName FROM Student Where Email = {studentLoginDto.Email} AND Password = {hashingPassword} ";
 
-            Student? hasStudent = _appDbContext.Student.FromSqlInterpolated(sql).FirstOrDefault();
-
-            if (hasStudent != null)
-                return true;
-            return false;
+            return await _appDbContext.Database.SqlQuery<StudentLoginResponseDto>(sql).FirstOrDefaultAsync();
         }
 
     }
