@@ -46,7 +46,18 @@ namespace EKtu.WEB.Controllers
         [HttpGet]
         public async Task<IActionResult> StudentCourse(int userId)
         {
+            TempData["userId"] = userId;
             var data = await _studentApiService.StudentCourseApi(userId);
+            var dataProfileInfo = await _studentApiService.ProfileApi(userId);
+            TempData["userName"] = dataProfileInfo.FirstName + " " + dataProfileInfo.LastName;
+            return View(data);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Profile(int userId)
+        {
+            TempData["userId"] = userId;
+            var data = await _studentApiService.ProfileApi(userId);
+            TempData["userName"] =data.FirstName + " "+ data.LastName;
             return View(data);
         }
     }

@@ -3,10 +3,36 @@
 
 @{
     ViewData["Title"] = "Student Course List";
+    var userId = TempData["userId"] as int?;
+    string userName = TempData["userName"] as string;
 }
 
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Ders Seçim Sistemi</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <!-- Kullanıcı Bilgileri -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/Student/Profile?userId=@userId">Kullanıcı: @userName</a>
+                </li>
+                <!-- Seçilen Dersler -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/Student/StudentCourse?userId=@userId">Seçilen Dersler</a>
+                </li>
+                <!-- Çıkış -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/Student/Login">Çıkış</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <!-- Table -->
 <div class="container mt-5">
