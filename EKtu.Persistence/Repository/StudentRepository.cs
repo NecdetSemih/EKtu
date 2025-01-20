@@ -66,9 +66,10 @@ namespace EKtu.Persistence.Repository
             await _appDbContext.Database.ExecuteSqlRawAsync(sql, sqlParameters);
         }
 
-        public async Task<bool> RefreshEmail(int studentId, string newEmail)
+        public async Task<bool> RefreshEmail(StudentRefreshEmailRequestDto dto)
         {
-            FormattableString sql = @$"UPDATE Student SET Email = {newEmail} WHERE Id ={studentId}";
+            var hashingPassword = Hashing.HashData(dto.Password);
+            FormattableString sql = @$"UPDATE Student SET Email = {dto.Email} WHERE Id ={dto.UserId} AND Password = {hashingPassword}";
             int value = await _appDbContext.Database.ExecuteSqlInterpolatedAsync(sql);
             return value > 0;
         }
@@ -83,7 +84,7 @@ namespace EKtu.Persistence.Repository
 
         public async Task<StudentInfoResponseDto> StudentInfo(int studentId)
         {
-            FormattableString sql = @$" SELECT s.FirstName,s.LastName,s.Email,i.[FirstName]+ i.[LastName] as [InstructorName] FROM Student s
+            FormattableString sql = @$" SELECT s.FirstName,s.LastName,s.Email,i.[FirstName]+ ' ' +i.[LastName] as [InstructorName] FROM Student s
                                          INNER JOIN Instructor i
                                          ON s.InstructorId=i.Id WHERE s.Id={studentId}";
 

@@ -9,7 +9,7 @@ namespace EKtu.Application.IRepository
         Task RemoveAsync(Student entity);
         Task<List<GetStudentCourseResponseDto>> GetListStudentChooseCourse(int userId);
         Task StudentChooseCourse(int studentId, List<int> courseIds);
-        Task<bool> RefreshEmail(int studentId, string newEmail);
+        Task<bool> RefreshEmail(StudentRefreshEmailRequestDto dto);
         Task<bool> RefreshPassword(int studentId, string newPassword);
         Task<StudentInfoResponseDto> StudentInfo(int studentId);
         Task<StudentLoginResponseDto> StudentLogin(StudentLoginDto studentLoginDto);

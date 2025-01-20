@@ -27,5 +27,9 @@ namespace EKtu.WEB.Services
         {
             return await _httpClient.GetFromJsonAsync<List<StudentCourseResponseViewModel>>($"Student/StudentCourse?studentId={studentId}");
         }
+        public async Task<StudentInfoResponseViewModel> ProfileApi(int studentId)
+        {
+            return await _httpClient.GetFromJsonAsync<StudentInfoResponseViewModel>($"Student/StudentInfo?studentId={studentId}");
+        }
     }
 }
