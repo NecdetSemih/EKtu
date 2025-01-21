@@ -10,7 +10,7 @@ namespace EKtu.Application.IRepository
         Task<List<GetStudentCourseResponseDto>> GetListStudentChooseCourse(int userId);
         Task StudentChooseCourse(int studentId, List<int> courseIds);
         Task<bool> RefreshEmail(StudentRefreshEmailRequestDto dto);
-        Task<bool> RefreshPassword(int studentId, string newPassword);
+        Task<bool> RefreshPassword(StudentRefreshPasswordRequestDto studentRefreshPasswordRequestDto);
         Task<StudentInfoResponseDto> StudentInfo(int studentId);
         Task<StudentLoginResponseDto> StudentLogin(StudentLoginDto studentLoginDto);
     }

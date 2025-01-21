@@ -57,7 +57,7 @@ namespace EKtu.WEB.Controllers
         {
             TempData["userId"] = userId;
             var data = await _studentApiService.ProfileApi(userId);
-            TempData["userName"] =data.FirstName + " "+ data.LastName;
+            TempData["userName"] = data.FirstName + " " + data.LastName;
             return View(data);
         }
     }
