@@ -73,10 +73,11 @@ namespace EKtu.Persistence.Repository
             int value = await _appDbContext.Database.ExecuteSqlInterpolatedAsync(sql);
             return value > 0;
         }
-        public async Task<bool> RefreshPassword(int studentId, string newPassword)
+        public async Task<bool> RefreshPassword(StudentRefreshPasswordRequestDto studentRefreshPasswordRequestDto)
         {
-            string hashingPassword = Hashing.HashData(newPassword);
-            FormattableString sql = @$"UPDATE Student SET Password = {hashingPassword} WHERE Id ={studentId}";
+            string updateHashingPassword = Hashing.HashData(studentRefreshPasswordRequestDto.UpdatePassword);
+            string currentHashingPassword = Hashing.HashData(studentRefreshPasswordRequestDto.CurrentPassword);
+            FormattableString sql = @$"UPDATE Student SET Password = {updateHashingPassword} WHERE Id ={studentRefreshPasswordRequestDto.UserId} AND Password = {currentHashingPassword}";
             int value = await _appDbContext.Database.ExecuteSqlInterpolatedAsync(sql);
             return value > 0;
         }

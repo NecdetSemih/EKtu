@@ -245,16 +245,25 @@
                 <div class="modal-body p-4">
                     <form>
                         <div class="mb-4">
-                            <label class="form-label">Mevcut Şifre</label>
+                            <label class="form-label" >Mevcut Şifre</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-transparent">
                                     <i class="fas fa-lock text-primary"></i>
                                 </span>
-                                <input type="password" class="form-control" required>
+                            <input type="password" class="form-control" id="currentPassword" required>
                             </div>
                         </div>
                         <div class="mb-4">
-                            <label class="form-label">Yeni Şifre</label>
+                            <label class="form-label" >Yeni Şifre</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent">
+                                    <i class="fas fa-key text-primary"></i>
+                                </span>
+                            <input type="password" class="form-control" id="updatePassword" required>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" id="copyUpdatePassword">Yeni Şifre (Tekrar)</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-transparent">
                                     <i class="fas fa-key text-primary"></i>
@@ -262,16 +271,7 @@
                                 <input type="password" class="form-control" required>
                             </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label">Yeni Şifre (Tekrar)</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-transparent">
-                                    <i class="fas fa-key text-primary"></i>
-                                </span>
-                                <input type="password" class="form-control" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn action-button password-btn w-100">Şifreyi Güncelle</button>
+                        <button type="button" class="btn action-button password-btn w-100" onclick="submitRefreshPassword()">Şifreyi Güncelle</button>
                     </form>
                 </div>
             </div>
@@ -312,5 +312,41 @@
                 alert('Bir hata oluştu. Lütfen tekrar deneyin.');
             });
         }
+
+
+        function submitRefreshPassword(){
+            var userId = document.getElementById("userId").value;
+            var currentPassword = document.getElementById("currentPassword").value;
+            var updatePassword = document.getElementById("updatePassword").value;
+
+            let requestData2 = {
+            UserId:userId,
+            CurrentPassword:currentPassword,
+            UpdatePassword:updatePassword
+            };
+
+            fetch('https://localhost:7083/api/Student/RefreshPassword', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData2),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    console.log(data);
+                    alert('Şifre başarıyla değiştirildi.');
+                } else {
+                    alert('Bir hata oluştu.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+            });
+            }
+
     </script>
+
 </html>
