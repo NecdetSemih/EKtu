@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EKtu.Persistence.Repository
 {
-    public class _courseRepository : ICourseRepository
+    public class CourseRepository : ICourseRepository
     {
         private readonly AppDbContext _appDbContext;
-        public _courseRepository(AppDbContext appDbContext)
+        public CourseRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
