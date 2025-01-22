@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EKtu.Persistence.Repository
 {
-    public class StudentRepository : IStudentRepository
+    public class StudentRepository : IStudentService
     {
         private readonly AppDbContext _appDbContext;
         public StudentRepository(AppDbContext appDbContext)

@@ -1,8 +1,13 @@
 ﻿using EKtu.Application.Dtos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace EKtu.Application.IRepository
+namespace EKtu.Application.IService
 {
-    public interface IInstructorRepository
+    public interface IInstructorService
     {
         Task<ResponseDto<InstructorLoginResponseDto>> LoginInstructor(string email, string password);
         Task<List<InstructorApprovedDto>> InstructorSelectedCourse(int instructorId);

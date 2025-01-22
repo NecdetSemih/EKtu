@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EKtu.Persistence.Repository
 {
-    public class InstructorRepository : IInstructorRepository
+    public class InstructorRepository : IInstructorService
     {
         private readonly AppDbContext _appDbContext;
         public InstructorRepository(AppDbContext appDbContext)
