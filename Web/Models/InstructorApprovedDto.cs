@@ -1,4 +1,4 @@
-﻿namespace EKtu.Application.Dtos
+﻿namespace Web.Models
 {
     public class InstructorApprovedDto
     {

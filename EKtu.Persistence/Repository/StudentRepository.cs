@@ -85,19 +85,31 @@ namespace EKtu.Persistence.Repository
 
         public async Task<StudentInfoResponseDto> StudentInfo(int studentId)
         {
-            FormattableString sql = @$" SELECT s.FirstName,s.LastName,s.Email,i.[FirstName]+ ' ' +i.[LastName] as [InstructorName] FROM Student s
+            FormattableString sql = @$"SELECT s.FirstName,s.LastName,s.Email,i.[FirstName]+ ' ' +i.[LastName] as [InstructorName] FROM Student s
                                          INNER JOIN Instructor i
                                          ON s.InstructorId=i.Id WHERE s.Id={studentId}";
 
             return await _appDbContext.Database.SqlQuery<StudentInfoResponseDto>(sql).FirstAsync();
         }
 
-        public async Task<StudentLoginResponseDto> StudentLogin(StudentLoginDto studentLoginDto)
+        public async Task<ResponseDto<StudentLoginResponseDto>> StudentLogin(StudentLoginDto studentLoginDto)
         {
             string hashingPassword = Hashing.HashData(studentLoginDto.Password);
-            FormattableString sql = $"SELECT Id, FirstName + ' ' + LastName as FullName FROM Student Where Email = {studentLoginDto.Email} AND Password = {hashingPassword} ";
+            FormattableString sql = $"SELECT Id,FirstName + ' ' + LastName as FullName FROM Student Where Email = {studentLoginDto.Email} AND Password = {hashingPassword} ";
 
-            return await _appDbContext.Database.SqlQuery<StudentLoginResponseDto>(sql).FirstOrDefaultAsync();
+            var data = await _appDbContext.Database.SqlQuery<StudentLoginResponseDto>(sql).FirstOrDefaultAsync();
+            if(data ==null)
+            {
+                return new ResponseDto<StudentLoginResponseDto>()
+                {
+                    IsSuccess = false
+                };
+            }
+            return new ResponseDto<StudentLoginResponseDto>()
+            {
+                Data=data,
+                IsSuccess = true
+            };
         }
 
     }
