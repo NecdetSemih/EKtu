@@ -1,4 +1,5 @@
 ﻿using EKtu.Application.IRepository;
+using EKtu.Application.IService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ektu.API.Controllers
@@ -7,15 +8,15 @@ namespace Ektu.API.Controllers
     [ApiController]
     public class CourseController : Controller
     {
-        private readonly ICourseRepository _courseRepository;
-        public CourseController(ICourseRepository courseRepository)
+        private readonly ICourseService _courseService;
+        public CourseController(ICourseService courseRepository)
         {
-            _courseRepository = courseRepository;
+            _courseService = courseRepository;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllCourse()
         {
-            return Ok(await _courseRepository.GetAllCourse());
+            return Ok(await _courseService.GetAllCourse());
         }
     }
 }

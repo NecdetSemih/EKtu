@@ -3,7 +3,7 @@ using EKtu.Domain.Entity;
 
 namespace EKtu.Application.IRepository
 {
-    public interface IStudentRepository
+    public interface IStudentService
     {
         Task AddAsync(Student entity);
         Task RemoveAsync(Student entity);
