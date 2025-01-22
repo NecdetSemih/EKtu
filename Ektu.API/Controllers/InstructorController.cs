@@ -6,10 +6,10 @@ namespace Ektu.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class InstuctorController : ControllerBase
+    public class InstructorController : ControllerBase
     {
         private readonly IInstructorRepository _instructorRepository;
-        public InstuctorController(IInstructorRepository instructorRepository)
+        public InstructorController(IInstructorRepository instructorRepository)
         {
             _instructorRepository = instructorRepository;
         }
@@ -50,6 +50,26 @@ namespace Ektu.API.Controllers
         public async Task<IActionResult> InstructorApp(int instructorId)
         {
             return Ok(await _instructorRepository.InstructorApproved(instructorId));
+        }
+        [HttpGet]
+        public async Task<IActionResult> SelectedStudentApproved(int userId)
+        {
+            return Ok(await _instructorRepository.SelectedUserApproved(userId));
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetAllSelectedStudentApproved([FromBody] List<int> UserIds)
+        {
+            return Ok(await _instructorRepository.GetAllSelectedUserApproved(UserIds));
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetAllSelectedStudentReject([FromBody] List<int> UserIds)
+        {
+            return Ok(await _instructorRepository.GetSelectedUserReject(UserIds));
+        }
+        [HttpGet]
+        public async Task<IActionResult> SelectedStudentReject(int userId)
+        {
+            return Ok(await _instructorRepository.SelectedStudentReject(userId));
         }
     }
 }

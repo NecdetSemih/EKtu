@@ -10,12 +10,12 @@ namespace EKtu.WEB.Services
         {
             _httpClient = httpClient;
         }
-        public async Task<StudentLoginResponseViewModel> StudentLoginApi(StudentLoginViewModel studentLoginViewModel)
+        public async Task<ResponseDto<StudentLoginResponseViewModel>> StudentLoginApi(StudentLoginViewModel studentLoginViewModel)
         {
             var response = await _httpClient.PostAsJsonAsync("Student/StudentLogin", studentLoginViewModel);
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<StudentLoginResponseViewModel>();
+                return await response.Content.ReadFromJsonAsync<ResponseDto<StudentLoginResponseViewModel>>();
             }
             return new();
         }

@@ -22,10 +22,10 @@ namespace EKtu.WEB.Controllers
             if (ModelState.IsValid)
             {
                 var response = await _studentApiService.StudentLoginApi(studentLoginViewModel);
-                if (response is not null)
+                if (response.IsSuccess)
                 {
-                    TempData["userId"] = response.Id;
-                    TempData["userName"] = response.FullName;
+                    TempData["userId"] = response.Data.Id;
+                    TempData["userName"] = response.Data.FullName;
 
                     return RedirectToAction(nameof(StudentChooseCourse));
                 }
@@ -40,7 +40,6 @@ namespace EKtu.WEB.Controllers
         public async Task<IActionResult> StudentChooseCourse()
         {
             var data = await _studentApiService.GetAllCourseApi();
-            TempData["userId"] = TempData["userId"];
             return View(data);
         }
         [HttpGet]

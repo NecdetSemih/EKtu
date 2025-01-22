@@ -41,11 +41,11 @@
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
             <tr>
-                <th>Course Code</th>
-                <th>Course Name</th>
-                <th>Credit</th>
-                <th>Mandatory</th>
-                <th>Status</th>
+                <th>Ders Kodu</th>
+                <th>Ders Adı</th>
+                <th>Kredi</th>
+                <th>Zorunlu</th>
+                <th>Durum</th>
             </tr>
         </thead>
         <tbody>
@@ -61,19 +61,19 @@
                         @if (course.IsApproved == 0)
                         {
                             <span class="badge bg-warning">
-                                <i class="bi bi-hourglass-split"></i> Pending
+                                <i class="bi bi-hourglass-split"></i> Beklemede
                             </span>
                         }
                         else if (course.IsApproved == 1)
                         {
                             <span class="badge bg-danger">
-                                <i class="bi bi-x-circle"></i> Fail
+                                <i class="bi bi-x-circle"></i> Reddedildi
                             </span>
                         }
                         else if (course.IsApproved == 2)
                         {
                             <span class="badge bg-success">
-                                <i class="bi bi-check-circle"></i> Approved
+                                <i class="bi bi-check-circle"></i> Onaylandı
                             </span>
                         }
                     </td>

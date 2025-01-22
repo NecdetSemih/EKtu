@@ -1,8 +1,8 @@
 ﻿using EKtu.Application.Dtos;
 using EKtu.Application.IRepository;
-using EKtu.Domain.Entity;
 using EKtu.Infrastructure;
 using EKtu.Persistence.Database;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace EKtu.Persistence.Repository
@@ -15,27 +15,38 @@ namespace EKtu.Persistence.Repository
             _appDbContext = appDbContext;
         }
 
-        public async Task<bool> LoginInstructor(string email, string password)
+        public async Task<ResponseDto<InstructorLoginResponseDto>> LoginInstructor(string email, string password)
         {
-            FormattableString sql = $"SELECT * FROM Instructor Where Email = {email} AND Password = {password} ";
+            var hashingPassword = Hashing.HashData(password);
+            FormattableString sql = $"SELECT Id,FirstName FROM Instructor Where Email = {email} AND Password = {hashingPassword} ";
 
-            Instructor? hasInstructor = _appDbContext.Instructor.FromSqlInterpolated(sql).FirstOrDefault();
+            var hasInstructor = _appDbContext.Database.SqlQuery<InstructorLoginResponseDto>(sql).FirstOrDefault();
 
             if (hasInstructor != null)
-                return true;
-            return false;
+            {
+                return new ResponseDto<InstructorLoginResponseDto>()
+                {
+                    Data = hasInstructor,
+                    IsSuccess = true,
+                };
+            }
+            return new ResponseDto<InstructorLoginResponseDto>()
+            {
+                IsSuccess = false,
+            };
         }
         public async Task<List<InstructorApprovedDto>> InstructorSelectedCourse(int instructorId)
         {
-            FormattableString sql = @$"SELECT DISTINCT s.FirstName,scc.IsApproved,c.CourseCode,c.CourseName FROM Course c 
+            FormattableString sql = @$"SELECT scc.Id as Id,s.FirstName,scc.IsApproved,c.CourseCode,c.CourseName FROM Course c 
                         INNER JOIN StudentChooseCourse scc
                         ON c.Id=scc.CourseId
                         INNER JOIN Student s
                         ON s.Id=scc.StudentId
                         INNER JOIN InstructorCourse ic
-                        ON ic.CourseId=c.Id WHERE ic.InstructorId={instructorId} AND scc.IsApproved = 0";
+                        ON ic.CourseId=c.Id WHERE ic.InstructorId={instructorId}";
 
-            return _appDbContext.Database.SqlQuery<InstructorApprovedDto>(sql).ToList();
+            var dat = _appDbContext.Database.SqlQuery<InstructorApprovedDto>(sql).ToList();
+            return dat;
         }
 
 
@@ -86,6 +97,52 @@ namespace EKtu.Persistence.Repository
             await _appDbContext.Database.ExecuteSqlRawAsync(sql, parameters.ToArray());
             return true;
         }
+        public async Task<bool> SelectedUserApproved(int id)
+        {
+            FormattableString sql = $@"UPDATE StudentChooseCourse SET IsApproved=2 WHERE Id={id}";
+            var data = await _appDbContext.Database.ExecuteSqlInterpolatedAsync(sql);
+            return data > 0;
+        }
 
+        public Task<bool> GetAllSelectedUserApproved(List<int> instructorIds)
+        {
+            var dataParam = instructorIds.Select((id, index) => $"@p{index}").ToList();
+
+            var valueSql = string.Join(",", dataParam);
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+            for (int i = 0; i < instructorIds.Count; i++)
+            {
+                parameters.Add(new SqlParameter($"@p{i}", instructorIds[i]));
+            }
+            string sql = $@"UPDATE StudentChooseCourse SET IsApproved=2 WHERE Id IN({valueSql})";
+
+            return Task.FromResult(_appDbContext.Database.ExecuteSqlRaw(sql, parameters) > 0);
+        }
+
+        public Task<bool> GetSelectedUserReject(List<int> instructorIds)
+        {
+            var dataParam = instructorIds.Select((id, index) => $"@p{index}").ToList();
+
+            var valueSql = string.Join(",", dataParam);
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+            for (int i = 0; i < instructorIds.Count; i++)
+            {
+                parameters.Add(new SqlParameter($"@p{i}", instructorIds[i]));
+            }
+            string sql = $@"UPDATE StudentChooseCourse SET IsApproved=1 WHERE Id IN({valueSql})";
+
+            return Task.FromResult(_appDbContext.Database.ExecuteSqlRaw(sql, parameters) > 0);
+        }
+
+        public async Task<bool> SelectedStudentReject(int userId)
+        {
+            FormattableString sql = $@"UPDATE StudentChooseCourse SET IsApproved=1 WHERE Id={userId}";
+            var data = await _appDbContext.Database.ExecuteSqlInterpolatedAsync(sql);
+            return data > 0;
+        }
     }
 }
